@@ -1,0 +1,137 @@
+#include <iostream>
+using namespace std;
+
+// Here we made Node structure for linked list
+class Node {
+public:
+    int data;
+    Node* next;
+};
+
+class MyQueue {
+private:
+    Node* front;
+    Node* last;
+
+public:
+    // Here initially queue is empty
+    MyQueue() {
+        front = nullptr;
+        last = nullptr;
+    }
+
+    // Suppose queue is empty
+    bool isEmpty() {
+        return front == nullptr;
+    }
+
+    // Here i added element at last using FIFO rule
+    void enqueue(int value) {
+        Node* newNode = new Node;
+        newNode->data = value;
+        newNode->next = nullptr;
+        if (isEmpty()) {
+            front = last = newNode;
+        }
+        else {
+            last->next = newNode;
+            // here value of last will be updated
+            last = newNode;
+        }
+        cout << value << " enqueued into queue." << endl;
+    }
+
+    // Here i remove element from front using FIFO rule
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Queue Underflow!" << endl;
+        }
+        else {
+            Node* temp = front;
+            cout << front->data << " dequeued from queue." << endl;
+            front = front->next;
+            if (front == nullptr) {
+                last = nullptr;
+            }
+            delete temp;
+        }
+    }
+
+    void showFront() {
+        if (isEmpty()) {
+            cout << "Queue is empty!" << endl;
+        }
+        else {
+            cout << "Front element: " << front->data << endl;
+        }
+    }
+
+    // here i am displaying all elements of queue
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty!" << endl;
+        }
+        else {
+            cout << "Queue elements: ";
+            Node* temp = front;
+            while (temp != nullptr) {
+                cout << temp->data << " ";
+                temp = temp->next;
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    MyQueue obj;
+    int choice, value;
+    do {
+        cout << "Menu" << endl;
+        cout << "1. Enqueue" << endl;
+        cout << "2. Dequeue" << endl;
+        cout << "3. Show Front" << endl;
+        cout << "4. Check if Empty" << endl;
+        cout << "5. Display Queue" << endl;
+        cout << "6. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            cout << "Enter value to enqueue: ";
+            cin >> value;
+            obj.enqueue(value);
+            break;
+
+        case 2:
+            obj.dequeue();
+            break;
+
+        case 3:
+            obj.showFront();
+            break;
+
+        case 4:
+            if (obj.isEmpty())
+                cout << "Queue empty." << endl;
+            else
+                cout << "Queue not empty." << endl;
+            break;
+
+        case 5:
+            obj.display();
+            break;
+
+        case 6:
+            cout << "Exit" << endl;
+            break;
+
+        default:
+            cout << "Invalid choice!" << endl;
+        }
+        cout << endl;
+    } while (choice != 6);
+
+    return 0;
+}
